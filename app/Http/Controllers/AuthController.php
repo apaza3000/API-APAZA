@@ -17,7 +17,7 @@ class AuthController extends Controller
 
   public function register(RegisterRequest $request)
   {
-    $datavalidate=$request->validated();
+    $datavalidate = $request->validated();
     $user = User::create([
       'name' => $datavalidate['name'],
       'apellido' => $datavalidate['apellido'],
@@ -29,8 +29,8 @@ class AuthController extends Controller
     // $token = $user->createToken('auth_token')->plainTextToken;
 
     return response()->json([
-      'code'=>"00",
-      'msg'=>"El usuario se registro correctamente"
+      'code' => "00",
+      'msg' => "El usuario se registro correctamente"
     ]);
   }
 
@@ -40,24 +40,22 @@ class AuthController extends Controller
 
   public function login(LoginRequest $request)
   {
-    $data=$request->validated();
-    $user=User::select('*')->where('email',$data['email'])->first();
-if ($user) {
-  return response()->json([
-    "code"=>"200",
-    "msg"=>"usuario encontrado",
-    "data"=>$user
-  ]);
-} else {
-  # code...
-  return response()->json([
-    "code"=>"404",
-    "msg"=>"usuario no encontrado",
-    "data"=>$user
-  ]);
-}
-
- 
+    $data = $request->validated();
+    $user = User::select('*')->where('email', $data['email'])->first();
+    if ($user) {
+      return response()->json([
+        "code" => "200",
+        "msg" => "usuario encontrado",
+        "data" => $user
+      ]);
+    } else {
+      # code...
+      return response()->json([
+        "code" => "404",
+        "msg" => "usuario no encontrado",
+        "data" => $user
+      ]);
+    }
   }
 
   /**

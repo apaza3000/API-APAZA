@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MarcaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/registro',[AuthController::class,'register']);
 Route::post('login', [AuthController::class,'login']);
+
+Route::get('marca',[MarcaController::class,'getAll']);
+Route::post('marca', [MarcaController::class,'store']);
