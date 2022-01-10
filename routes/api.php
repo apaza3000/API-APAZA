@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/registro',[AuthController::class,'register']);
-Route::post('login', [AuthController::class,'login']);
+Route::post('/registro', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-Route::get('marca',[MarcaController::class,'getAll']);
-Route::post('marca', [MarcaController::class,'store']);
+Route::get('marca', [MarcaController::class, 'getAll']);
+Route::get('marca/{id}', [MarcaController::class, 'getId']);
+Route::post('marca', [MarcaController::class, 'store']);
+Route::put('marca/{id}', [MarcaController::class, 'update']);
+Route::delete('marca/{marca}', [MarcaController::class, 'destroy']);

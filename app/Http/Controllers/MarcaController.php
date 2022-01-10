@@ -9,6 +9,10 @@ use App\Http\Requests\UpdateMarcaRequest;
 class MarcaController extends Controller
 {
     /**
+     * CRUD API TERMINADO MARCA
+     */
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -37,22 +41,22 @@ class MarcaController extends Controller
     public function store(StoreMarcaRequest $request)
     {
         //
-        $data=$request->validated();
+        $data = $request->validated();
 
-        $marca=Marca::create([
-            'descripcion'=>$data['descripcion']
+        $marca = Marca::create([
+            'descripcion' => $data['descripcion']
         ]);
 
         if ($marca) {
             return response()->json([
-                'code'=>'00',
-                'msg'=>'la marca ha sido insertado de manera correcta'
+                'code' => '00',
+                'msg' => 'la marca ha sido insertado de manera correcta'
             ]);
         }
         return response()->json([
 
-            'code'=>'404',
-            'msg'=>'error en insertar marca'
+            'code' => '404',
+            'msg' => 'error en insertar marca'
         ]);
     }
 
@@ -85,9 +89,18 @@ class MarcaController extends Controller
      * @param  \App\Models\Marca  $marca
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMarcaRequest $request, Marca $marca)
+    public function update(UpdateMarcaRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        $marca = Marca::where('id', $id)->first();
+        $marca->descripcion = $data['descripcion'];
+        $marca->update();
+
+        return response()->json([
+            'code' => '00',
+            'msg' => 'la marca ha sido actualizado correctamente'
+        ]);
     }
 
     /**
@@ -98,18 +111,31 @@ class MarcaController extends Controller
      */
     public function destroy(Marca $marca)
     {
-        //
-    }
-/**
- * this method is at get all items in the database
- */
-    public function getAll(){
-        $marcas=Marca::all();
-        
+        $marca->delete();
+
         return response()->json([
-            'code'=>"00",
-            'msg'=>"se listo a todos los datos de la tabla marcas",
-            'data'=>$marcas
-        ],200);
+            'code'=>'00',
+            'msg'=>'La marca ha sido eliminado correctamente'
+        ]);
+    }
+    /**
+     * this method is at get all items in the database
+     */
+    public function getAll()
+    {
+        $marcas = Marca::all();
+
+        return response()->json($marcas, 200);
+    }
+
+    /**
+     * this functions returns firrt item for table 
+     * 
+     */
+    public function getId($id)
+    {
+        $marca = Marca::where('id', $id)->first();
+
+        return response()->json($marca, 200);
     }
 }
