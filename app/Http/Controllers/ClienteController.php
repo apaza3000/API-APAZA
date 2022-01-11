@@ -36,7 +36,22 @@ class ClienteController extends Controller
      */
     public function store(StoreClienteRequest $request)
     {
-        //
+        $request->validated();
+
+        $cliente = Cliente::create($request->all());
+
+        if ($cliente) {
+            return response()->json([
+                'code'=>'00',
+                'msg'=>'El cliente a sido registrado correctamente'
+            ]);
+        } else {
+            return response()->json([
+                'code'=>'404',
+                'msg'=>'Error al registrar el cliente'
+            ]);
+        }
+        
     }
 
     /**
@@ -70,7 +85,7 @@ class ClienteController extends Controller
      */
     public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
-        //
+        $data = $request->validated();
     }
 
     /**
@@ -82,5 +97,19 @@ class ClienteController extends Controller
     public function destroy(Cliente $cliente)
     {
         //
+    }
+
+    public function getAll()
+    {
+        $clientes = Cliente::all();
+
+        return response()->json($clientes);
+    }
+
+    public function getId($id)
+    {
+        $cliente = Cliente::where('id', $id)->first();
+
+        return response()->json($cliente);
     }
 }
